@@ -6,13 +6,15 @@
   :license  "NPLv1+"
   :version "0.0.1"
   :serial t
-  :depends-on (#:cl-cffi-gtk #:dexador #:uiop
+  :depends-on (#:qtools #:dexador #:uiop
 	       #:bordeaux-threads #:cl-json
-	       #:str)
+	       #:str #:qtgui #:qtcore)
   :components ((:file "package")
+	       (:file "net")
+	       (:file "gui")
                (:file "cowl"))
-  :build-operation "program-op"
-  :build-pathname "bin/cowl"
+  :build-operation "qt-program-op"
+  :build-pathname "cowl"
   :entry-point "cowl::main")
 
 #+sb-core-compression
