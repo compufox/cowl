@@ -11,6 +11,8 @@
 
 (define-subwidget (main-window txt-instance) (q+ make-qlineedit main-window)
   (setf (q+ placeholder-text txt-instance) "mastodon.social"))
+(define-subwidget (main-window txt-filter) (q+ make-qlineedit main-window)
+  (setf (q+ placeholder-text txt-filter) "blobcat"))
 (define-subwidget (main-window btn-download) (q+ make-qpushbutton "Download" main-window))
 (define-subwidget (main-window btn-quit) (q+ make-qpushbutton "Quit" main-window))
 (define-subwidget (main-window btn-picker) (q+ make-qpushbutton "~" main-window)
@@ -26,13 +28,16 @@
 
 (define-subwidget (main-window win-layout) (q+ make-qgridlayout main-window)
   (let ((inst-label (q+ make-qlabel "Instance url:"))
-	(dir-label (q+ make-qlabel "Save to:")))
+	(dir-label (q+ make-qlabel "Save to:"))
+	(filter-label (q+ make-qlabel "Filter:")))
     (q+ add-widget win-layout inst-label 0 0 1 1)
     (q+ add-widget win-layout txt-instance 0 1 1 1)
-    (q+ add-widget win-layout dir-label 1 0 1 1)
-    (q+ add-widget win-layout btn-picker 1 1 1 1)
-    (q+ add-widget win-layout btn-download 2 0 1 1)
-    (q+ add-widget win-layout btn-quit 2 1 1 1)))
+    (q+ add-widget win-layout filter-label 1 0 1 1)
+    (q+ add-widget win-layout txt-filter 1 1 1 1)
+    (q+ add-widget win-layout dir-label 2 0 1 1)
+    (q+ add-widget win-layout btn-picker 2 1 1 1)
+    (q+ add-widget win-layout btn-download 3 0 1 1)
+    (q+ add-widget win-layout btn-quit 3 1 1 1)))
 
 (define-slot (main-window btn-download) ()
   (declare (connected btn-download (pressed)))
@@ -40,12 +45,14 @@
   (with-widget-disabled btn-download
     (download-emojis (q+ text txt-instance)
 		     *current-out*
+		     (q+ text txt-filter)
 		     progress-bar)))
 (define-slot (main-window btn-picker) ()
   (declare (connected btn-picker (pressed)))
-  (setf *current-out* (or (#_QFileDialog::getExistingDirectory main-window "Select folder to download emojis" *current-out*)
-			  *current-out*))
-  (setf (q+ text btn-picker) *current-out*))
+  (let ((new-dir (#_QFileDialog::getExistingDirectory main-window "Select folder to download emojis" *current-out*)))
+    (unless (str:blankp new-dir)
+      (setf *current-out* new-dir
+	    (q+ text btn-picker) new-dir))))
 (define-slot (main-window btn-quit) ()
   (declare (connected btn-quit (pressed)))
   (uiop:quit 0))
