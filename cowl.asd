@@ -6,8 +6,7 @@
   :license  "NPLv1+"
   :version "0.1"
   :serial t
-  :depends-on (#:qtools #:dexador #:uiop
-	       #:bordeaux-threads #:cl-json
+  :depends-on (#:qtools #:dexador #:uiop #:cl-json
 	       #:str #:qtgui #:qtcore)
   :components ((:file "package")
 	       (:file "net")
