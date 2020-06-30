@@ -1,3 +1,20 @@
-all: 
-	ros run --eval "(progn (ql:quickload :cowl) (asdf:make :cowl))"
+LISPS = ros sbcl clisp cmucl ccl
 
+ifeq ($(OS),Windows_NT)
+	LISP := $(foreach lisp,$(LISPS), \
+		$(shell where $(lisp)) \
+		$(if $(.SHELLSTATUS),$(strip $(lisp)),))
+else
+	LISP := $(foreach lisp,$(LISPS), \
+		$(if $(findstring $(lisp),"$(shell which $(lisp) 2>/dev/null)"), $(strip $(lisp)),))
+endif
+
+ifeq ($(LISP),)
+	$(error "No lisps found")
+endif
+
+all: 
+	$(LISP) --eval "(progn (ql:quickload :cowl) (asdf:make :cowl))"
+
+clean:
+	rm -rf bin/
