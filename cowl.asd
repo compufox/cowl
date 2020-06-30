@@ -4,7 +4,7 @@
   :description "qt app to download emojis from mastodon/pleroma"
   :author "ava fox"
   :license  "NPLv1+"
-  :version "0.1"
+  :version "0.1.1"
   :serial t
   :depends-on (#:qtools #:dexador #:uiop #:cl-json
 	       #:str #:qtgui #:qtcore)
