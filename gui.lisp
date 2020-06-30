@@ -16,8 +16,8 @@
 (define-subwidget (main-window btn-download) (q+ make-qpushbutton "Download" main-window))
 (define-subwidget (main-window btn-quit) (q+ make-qpushbutton "Quit" main-window))
 (define-subwidget (main-window btn-picker) (q+ make-qpushbutton "~" main-window)
-  (setf (q+ text btn-picker) (uiop:getenv "HOME")
-	*current-out* (uiop:getenv "HOME")))
+  (setf (q+ text btn-picker) (namestring (uiop:getcwd))
+	*current-out* (namestring (uiop:getcwd))))
 
 (define-subwidget (main-window progress-bar) (q+ make-qprogressdialog 
 						 "Downloading emojis..." ; widget label
