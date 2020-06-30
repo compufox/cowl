@@ -1,7 +1,7 @@
 ;;;; cowl.asd
 
 (asdf:defsystem #:cowl
-  :description "Describe cowl here"
+  :description "qt app to download emojis from mastodon/pleroma"
   :author "ava fox"
   :license  "NPLv1+"
   :version "0.0.1"
