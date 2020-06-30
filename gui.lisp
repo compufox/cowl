@@ -1,5 +1,4 @@
 (in-package :cowl)
-(in-readtable :qtools)
 
 (defmacro with-widget-disabled (widget &body body)
   `(progn
@@ -49,7 +48,7 @@
 		     progress-bar)))
 (define-slot (main-window btn-picker) ()
   (declare (connected btn-picker (pressed)))
-  (let ((new-dir (#_QFileDialog::getExistingDirectory main-window "Select folder to download emojis" *current-out*)))
+  (let ((new-dir (q+ qfiledialog-get-existing-directory main-window "Select folder to download emojis" *current-out*)))
     (unless (str:blankp new-dir)
       (setf *current-out* new-dir
 	    (q+ text btn-picker) new-dir))))
